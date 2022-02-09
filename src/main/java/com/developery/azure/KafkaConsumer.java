@@ -9,6 +9,9 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import com.developery.azure.TestClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,21 +25,25 @@ public class KafkaConsumer {
 	private final TestClient client;
 	
 	@KafkaListener(topics = "hub1", groupId = "myGroup1")
-    public void consume(ParaVO data) {
+    public void consume(String data) throws JsonMappingException, JsonProcessingException {
 		
-		log.info("end1");
+		log.info("end1"); //실행 안됨
+		ObjectMapper mapper = new ObjectMapper();
+		ParaVO paraObject = mapper.readValue(data, ParaVO.class);
 		
-		ResponseEntity<String> resp = client.sendMailApp(data);
+		ResponseEntity<String> resp = client.sendMailApp(paraObject);
 		log.info("end11");
     }
 	
 	
 	@KafkaListener(topics = "hub1.dlt", groupId = "myGroup1")
-    public void dltConsume(ParaVO data) {
+    public void dltConsume(String data) throws JsonMappingException, JsonProcessingException {
 		
 		log.info("end2");
+		ObjectMapper mapper = new ObjectMapper();
+		ParaVO paraObject = mapper.readValue(data, ParaVO.class);
 		
-		ResponseEntity<String> resp = client.sendMailApp(data);
+		ResponseEntity<String> resp = client.sendMailApp(paraObject);
 		log.info("end22");
     }
 }

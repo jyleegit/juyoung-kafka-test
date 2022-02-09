@@ -10,12 +10,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class ParaVO {
-		String myEmailBody;
-		String mySubject;
-		String myEmailAddress;
-		String testData;
+		private String myEmailBody;
+		private String mySubject;
+		private String myEmailAddress;
+		private String testData;
+		
+		public ParaVO(String myEmailBody, String mySubject, String myEmailAddress, String testData) {
+			this.myEmailBody = myEmailBody;
+			this.mySubject = mySubject;
+			this.myEmailAddress = myEmailAddress;
+			this.testData = testData;
+		}
+		
+		public ParaVO() {
+			this.myEmailBody = null;
+			this.mySubject = null;
+			this.myEmailAddress = null;
+			this.testData = null;
+		}
 }
+
+

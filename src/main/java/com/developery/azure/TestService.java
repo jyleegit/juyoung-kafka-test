@@ -17,12 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 public class TestService {
 
 	@Autowired
-	private KafkaTemplate<String, ParaVO> kafkaTemplate;
+	private KafkaTemplate<String, String> kafkaTemplate;
 	
 	int count = 0;	
 	
 	public String insert(ParaVO data) {
-		ListenableFuture<SendResult<String, ParaVO>> future = kafkaTemplate.send("hub1", data);
+		ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send("hub1", data.toString());
 		future.addCallback(successCallback -> {
 			log.info("[producer] successCallback. partition: {},  offset: {}",
 					successCallback.getRecordMetadata().partition(),
