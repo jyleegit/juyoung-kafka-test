@@ -1,0 +1,15 @@
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: juyoung-kafka-test.servicebus.windows.net:9093
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    properties:
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://juyoung-kafka-test.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SSorKF446DuWW6AdSUoMMwRJeq6KzKsPAAa22A6JKPg=";
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL
+      
+    consumer:
+      bootstrap-servers: juyoung-kafka-test.servicebus.windows.net:9093
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
