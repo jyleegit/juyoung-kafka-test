@@ -27,7 +27,7 @@ public class KafkaConsumer {
 	@KafkaListener(topics = "hub1", groupId = "myGroup1")
     public void consume(String data) throws JsonMappingException, JsonProcessingException {
 		
-		log.info("end1"); //실행 안됨
+		log.info("end1");
 		ObjectMapper mapper = new ObjectMapper();
 		ParaVO paraObject = mapper.readValue(data, ParaVO.class);
 		
@@ -35,7 +35,7 @@ public class KafkaConsumer {
 		log.info("end11");
     }
 	
-	
+	/*
 	@KafkaListener(topics = "hub1.dlt", groupId = "myGroup1")
     public void dltConsume(String data) throws JsonMappingException, JsonProcessingException {
 		
@@ -46,4 +46,5 @@ public class KafkaConsumer {
 		ResponseEntity<String> resp = client.sendMailApp(paraObject);
 		log.info("end22");
     }
+    */
 }

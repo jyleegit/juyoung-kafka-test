@@ -33,7 +33,7 @@ public class KafkaConfig {
 		ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
 		factory.setConsumerFactory(consumerFactory);
-		factory.setConcurrency(2);		// 이곳의 숫자만큼 consumer thread가 구동됨. 
+		factory.setConcurrency(1);		// 이곳의 숫자만큼 consumer thread가 구동됨. 
 		
 		// deprecated 인데 예제들이 대부분 이거라서... 
 		@SuppressWarnings("deprecation")
@@ -46,7 +46,7 @@ public class KafkaConfig {
 		            return new TopicPartition(record.topic() + ".dlt", 0);	            
 		        });		
 		
-		factory.setRetryTemplate(retryTemplate());
+		//factory.setRetryTemplate(retryTemplate());
 		
 		// 아래 setRecoveryCallback 은 안해도 잘 동작함. 
 		// retryTemplate 이 모두 실패시 콜백을 받아서 뭔가 처리하고 싶을때 구현하면 됨. 
@@ -89,11 +89,11 @@ public class KafkaConfig {
 		RetryTemplate retryTemplate = new RetryTemplate();
 		 
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(500L);  // 500ms 쉬었다가 ...
+        fixedBackOffPolicy.setBackOffPeriod(3000L);  // 500ms 쉬었다가 ...
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
  
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
-        retryPolicy.setMaxAttempts(5);			// 최대 5번까지 재시도
+        retryPolicy.setMaxAttempts(1);			// 최대 5번까지 재시도
         retryTemplate.setRetryPolicy(retryPolicy);
  
         return retryTemplate;

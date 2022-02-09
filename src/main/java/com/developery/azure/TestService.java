@@ -8,6 +8,9 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,8 +24,10 @@ public class TestService {
 	
 	int count = 0;	
 	
-	public String insert(ParaVO data) {
-		ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send("hub1", data.toString());
+	public String insert(ParaVO data) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		String msg = objectMapper.writeValueAsString(data);
+		ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send("hub1", msg);
 		future.addCallback(successCallback -> {
 			log.info("[producer] successCallback. partition: {},  offset: {}",
 					successCallback.getRecordMetadata().partition(),
@@ -32,6 +37,6 @@ public class TestService {
 			log.error("[producer] errorCallback. msg: " + errorCallback.getMessage());
 			}
 		);
-		return "Produced";
+		return "Produceed";
 	}
 }
